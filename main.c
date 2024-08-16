@@ -10,11 +10,7 @@ int find(int x, int visited[]) {
 
 int contarComponentes(int N, int vertices[][2], int M) {
     int visited[N];
-    
-    for (int i = 0; i < N; i++) {
-        visited[i] = i;
-    }
-
+   
     for (int i = 0; i < M; i++) {
         int root1 = find(vertices[i][0], visited);
         int root2 = find(vertices[i][1], visited);
