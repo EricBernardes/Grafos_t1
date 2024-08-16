@@ -54,6 +54,8 @@ int main(int argc, char *argv[]) {
     fscanf(f, "%*[^\n]");
   }
 
+  fclose(f);
+
   for(int i = 0; i < M; i++) {
     for(int j = 0; j < 2; j++) {
       printf("%d ", vertices[i][j]);
