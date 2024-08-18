@@ -16,8 +16,8 @@ int **iniciaMatriz(int M) {
     }
   }
 
-  for (int i = 0; i < M; i++) {
-    for (int j = 0; j < 2; j++) {
+  for(int i = 0; i < M; i++) {
+    for(int j = 0; j < 2; j++) {
       vertices[i][j] = 0;
     }
   }
@@ -49,45 +49,31 @@ void liberaMatriz(int **vertices, int M) {
 
 int find(int x, int *visited) {
   if (visited[x] != x) {
+    printf("Visited[%d] - %d\n", x, visited[x]);
+    printf("X - %d\n", x);
     visited[x] = find(visited[x], visited);
   }
   return visited[x];
 }
 
-void imprimeVetorVisited(int *v, int N) {
-  for (int i = 1; i <= N; i++) {
-    printf("%d | ", v[i]);
-  }
-  printf("\n\n");
-}
-
 int contarComponentes(int N, int **vertices, int M) {
   int *visited = iniciaEPreencheVetorVisit(N);
-  int count = N;
 
   for (int i = 0; i < M; i++) {
-    printf("Vetor dos Visitados\n");
-    imprimeVetorVisited(visited, N);
     int root1 = find(vertices[i][0], visited);
     int root2 = find(vertices[i][1], visited);
     if (root1 != root2) {
       visited[root1] = root2;
-      count--;
-      printf("Vertices %d - %d | São adjacentes\n", root1, root2);
-      imprimeVetorVisited(visited, N);
-    } else {
-      printf("Vertices %d - %d | Não São adjacentes\n", root1, root2);
+      N--;
     }
-    printf("Há %d Componentes Conexos\n\n", count);
-    printf("*********************\n");
   }
 
   free(visited);
 
-  return count;
+  return N;
 }
 
-int **leArquivo(char *arg, int *N, int *M) {
+int **leArquivo(char *arg, int *N, int* M) {
   FILE *f = fopen(arg, "r");
 
   if (f == NULL) {
@@ -114,6 +100,8 @@ int **leArquivo(char *arg, int *N, int *M) {
   return vertices;
 }
 
+
+
 int main(int argc, char *argv[]) {
   int N = 0;
   int M = 0;
@@ -126,7 +114,7 @@ int main(int argc, char *argv[]) {
   }
 
   printf("*************\n");
-
+  
   int componentes = contarComponentes(N, vertices, M);
 
   liberaMatriz(vertices, M);
@@ -134,8 +122,9 @@ int main(int argc, char *argv[]) {
   if (componentes == 1) {
     printf("PROMESSA CUMPRIDA\n");
   } else {
-    printf("FALTAM %d ESTRADAS\n", componentes - 1);
+      printf("FALTAM %d ESTRADAS\n", componentes - 1);
   }
+
 
   return 0;
 }
